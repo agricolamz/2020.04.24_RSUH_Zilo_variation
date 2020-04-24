@@ -5,9 +5,9 @@ institute: "Linguistic Convergence Laboratory, NRU HSE"
 date: |
     | 24 April 2020 (Dialectology and Linguistic Geography, Institute of Linguistics, RSUH)
     |
+    | Presentation is available here: \alert{tinyurl.com/y78s9jbb}
     |
     | ![](images/00_qrcode.png)'
-    | Presentation is available here: \alert{tinyurl.com/y78s9jbb}
 output: 
   beamer_presentation:
     df_print: kable

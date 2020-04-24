@@ -412,7 +412,7 @@ nd_fes %>%
   geom_dotplot()+
   facet_grid(type~range)+
   scale_x_continuous(breaks = 1:20)+
-  labs(x= "", y= "")+
+  labs(x= "number of spekaers", y= "")+
   scale_y_continuous(NULL, breaks = NULL)
 ```
 
@@ -426,7 +426,7 @@ n_speakers_bootstraped %>%
   geom_density(alpha = 0.5)+
   facet_wrap(~type, nrow = 2, scales = "free")+
   scale_x_continuous(breaks = 1:11)+
-  labs(x = "", y = "")+
+  labs(x = "number of spekaers", y = "")+
   theme(legend.title = element_blank(),
         legend.position = c(1, 1),
         legend.justification = c(1.1, 1.1))
@@ -492,11 +492,12 @@ zilo_experiment %>%
   select(f_id, entropy) %>% 
   distinct() %>% 
   full_join(experiment_sampling) %>% 
-  mutate(n_types = factor(n_types),
-         type_range = factor(type_range, levels = c("actual minimum", "actual maximum", "preference minimum", "preference maximum")),
+  mutate(type_range = factor(type_range, levels = c("actual minimum", "actual maximum", "preference minimum", "preference maximum")),
          translation_en = fct_reorder(str_c(str_trunc(paste(f_id, translation_en), 15), " (", entropy, ")"), entropy)) %>% 
   group_by(f_id, translation_en, entropy, type_range) %>% 
-  summarise(n_types = max(as.numeric(n_types)), percentage = max(percentage)) %>% 
+  mutate(max_n_types = max(as.numeric(n_types)),
+         percantage = round(n/sum(n)*100)) %>% 
+  filter(n_types == max_n_types) %>%
   mutate(range = str_extract(type_range, "m..imum"),
          range = factor(range, levels=c("minimum", "maximum")),
          type = str_extract(type_range, "[a-z]* "),
@@ -516,7 +517,7 @@ Number on the plot represents number id of the question.
 ## Conclusions:
 
 - Shannon information entropy helps to find some variation spots
-- An **"average researcher"** might overlook a significant amount of the variation we observed due to the low number of speakers they usually consult with
+- An **"average researcher"** might overlook a significant amount of the variation we observed due to the low number of speakers they usually consult with (more possible values and lower variable entropy is higher likelyhood of overlooking)
 - However, our experiment with 44 speakers also failed to show some of the variation we found in prior research on this dialect
 - The observed variation should be explored in more detail using the collected sociolinguistic parameters (it looks like variation does not corelate with gender)
 - The characteristics of the **"average researcher"** of Nakh-Daghestanian languages can be further eloborated using the parameters collected in the survey

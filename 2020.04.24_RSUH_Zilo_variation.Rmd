@@ -5,9 +5,9 @@ institute: "Linguistic Convergence Laboratory, NRU HSE"
 date: |
     | 24 April 2020 (Dialectology and Linguistic Geography, Institute of Linguistics, RSUH)
     |
-    | Presentation is available here: \alert{tinyurl.com/y78s9jbb}
     |
     | ![](images/00_qrcode.png)'
+    | Presentation is available here: \alert{tinyurl.com/y78s9jbb}
 output: 
   beamer_presentation:
     df_print: kable
@@ -221,7 +221,7 @@ experiment_sampling <- read_csv("data/experiment_sampling.csv")
 
 ## Investigating variation:
 
->- In variationism (e.g. [@labov63] on Martha's Vineyard /ai/ ~ /au/, [@trudgill74] on Norwich speech, [@wolfram69] on Afro-American speech from Detroit) researchers get mad about social stratification, mostly urban.
+>- In variationism (e.g. [@labov63] on Martha's Vineyard /ai/ ~ /au/, [@trudgill74] on Norwich speech, [@wolfram69] on Afro-American speech from Detroit) researchers focus on social stratification, mostly urban.
 
 
 >- "Two equally interesting questions are at the heart of this book: how an extraordinary degree of idiosyncratic linguistic variation can coexist with an extraordinarily homogeneous speaker population, and how linguists might overlook the possibility of their coexistence." [@dorian10: 3]
@@ -284,7 +284,7 @@ zilo_experiment %>%
 
 ## Information entropy
 
-In order to measure diversity of the questions we used the easiest measure --- the information entropy, introduced in [@shannon48]:
+In order to measure the diversity of the questions we used the easiest measure --- information entropy, introduced in [@shannon48]:
 
 $$H(X) = - \sum_{i = 1}^n{P(x_i)\times\log_2P(x_i)}$$
 
@@ -517,7 +517,7 @@ Number on the plot represents number id of the question.
 ## Conclusions:
 
 - Shannon information entropy helps to find some variation spots
-- An **"average researcher"** might overlook a significant amount of the variation we observed due to the low number of speakers they usually consult with (more possible values and lower variable entropy is higher likelyhood of overlooking)
+- An **"average researcher"** might overlook a significant amount of the variation we observed due to the low number of speakers they usually consult with (the more possible values and the lower variable entropy, the higher the likelihood of overlooking variables)
 - However, our experiment with 44 speakers also failed to show some of the variation we found in prior research on this dialect
 - The observed variation should be explored in more detail using the collected sociolinguistic parameters (it looks like variation does not corelate with gender)
 - The characteristics of the **"average researcher"** of Nakh-Daghestanian languages can be further eloborated using the parameters collected in the survey

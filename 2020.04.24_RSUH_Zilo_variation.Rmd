@@ -7,7 +7,7 @@ date: |
     |
     |
     | ![](images/00_qrcode.png)'
-    | Presentation is available here: \alert{tinyurl.com/yx6cpd8t}
+    | Presentation is available here: \alert{tinyurl.com/y78s9jbb}
 output: 
   beamer_presentation:
     df_print: kable
@@ -31,7 +31,7 @@ theme_set(theme_bw()+theme(text = element_text(size = 20, family = "Brill")))
 # create qrcode
 # library(qrcode)
 # png(filename="images/00_qrcode.png", width = 200, height = 200)
-# qrcode_gen("https://github.com/agricolamz/2020.03.14_MSU_Zilo_variation/raw/master/2020.03.14_MSU_Zilo_variation.pdf")
+# qrcode_gen("https://github.com/agricolamz/2020.04.24_RSUH_Zilo_variation/raw/master/2020.04.24_RSUH_Zilo_variation.pdf")
 # dev.off()
 
 # read zilo data
@@ -263,27 +263,6 @@ Created with `lingtypology` [@moroz2017]
 (@lexic_2) 'north'
 (@lexic_3) 'thousand'
 
-## Stimuli: class attribution
-
-```{r}
-read_csv("data/classes_in_andi.csv") %>% 
-  select(-source)
-```
-
-* *odoruk’a* 'butterfly' (@butterfly_sg, @butterfly_pl) and *ʁats'a* 'grasshopper' (@grasshopper_sg, @grasshopper_pl) belong to the rare `inan 3` class in Rikvani [@suleymanov57]
-* *odoruk’a* 'butterfly' (@butterfly_sg) is one of the most variable words according to [@moroz19]
-
-## Stimuli
-
->- *ila-ima* 'parents' can agree with `m` or `inan 2` (@parents).
->- Different dative morphemes with masculine experiencers -*j*/-*ɬu* (@dative_father, @dative_cow)
->- Ordinal numeral marker sometimes agrees with noun class (@cardinal)
->- Different plural forms for certain nouns (@plural_heel, @plural_soninlow)
->- Two past copulas *b-ik'o* and *b-iʁi* with no functional distinction
->- Temporal forms meaning "When X happened/happens/will happen" have a long (*-rbihi*) and a short form (*-rbi*), and can appear in ergative case with the same meaning (*-rbil-di*)
->- Optional plural suffix -*l* can be added to progressive verb forms in -*rado*/-*mado* (@verb2)
->- 'rainbow', 'north', and 'thousand' (@lexic_1, @lexic_2, and @lexic_3) show variation in word choice (@lexic_1, @lexic_2) and adaptation (@lexic_3): *ozruɡu*, *oziruɡu*, *ozuruɡu*
-
 ## Zilo questionary (`r length(unique(zilo_experiment$speaker_id))` speakers): results
 
 ```{r}
@@ -303,30 +282,34 @@ zilo_experiment %>%
   scale_fill_hue(l=50)
 ```
 
-## More about 'butterfly':
+## Information entropy
 
-* previosly we claimed:
+In order to measure diversity of the questions we used the easiest measure --- the information entropy, introduced in [@shannon48]:
 
-```{r}
-read_csv("data/classes_in_andi.csv") %>% 
-  filter(str_detect(lect, "Ri|Zi")) %>% 
-  select(-source)
-```
+$$H(X) = - \sum_{i = 1}^n{P(x_i)\times\log_2P(x_i)}$$
 
-* in [@moroz19] we asked only the singular form of 'butterfly'
-
-* in our new experiment):
+Range of the information entropy is $H(X) \in [0, +\infty]$: 
 
 ```{r}
-zilo_experiment %>% 
-  filter(f_id < 3) %>% 
-  select(f_id, value, speaker_id) %>% 
-  pivot_wider(everything(), names_from = f_id, values_from = value) %>% 
-  count(`1`, `2`) %>% 
-  rename(sg = `1`,
-         pl = `2`) %>% 
-  mutate(class = c("an", "???", "inan 2"))
+tibble(a = c("A", "A", "A", "A", "B"),
+       b = c("A", "A", "A", "B", "B"),
+       c = c("A", "A", "B", "B", "B"),
+       e = c("A", "A", "B", "B", "C"),
+       f = c("A", "B", "C", "A", "B"),
+       g = c("A", "A", "A", "A", "A")) %>% 
+  pivot_longer(names_to = "id", values_to = "value", a:g) %>% 
+  group_by(id) %>% 
+  mutate(data = str_c(value, collapse = "-")) %>% 
+  count(data, value) %>% 
+  mutate(ratio = n/sum(n)) %>% 
+  group_by(data) %>% 
+  summarise(entropy = round(-sum(ratio*log2(ratio)), 2)) %>% 
+  arrange(entropy) %>% 
+  knitr::kable()
 ```
+
+
+
 
 ## Zilo questionary (`r length(unique(zilo_experiment$speaker_id))` speakers): entropy value on the right
 
@@ -526,12 +509,13 @@ zilo_experiment %>%
        fill = "number of\nvariants")
 ```
 
-
+Number on the plot represents number id of the question.
 
 # \color{colorwhite} Conclusions
 
 ## Conclusions:
 
+- Shannon information entropy helps to find some variation spots
 - An **"average researcher"** might overlook a significant amount of the variation we observed due to the low number of speakers they usually consult with
 - However, our experiment with 44 speakers also failed to show some of the variation we found in prior research on this dialect
 - The observed variation should be explored in more detail using the collected sociolinguistic parameters (it looks like variation does not corelate with gender)
